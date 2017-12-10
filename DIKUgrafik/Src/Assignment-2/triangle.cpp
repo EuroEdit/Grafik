@@ -16,7 +16,7 @@ triangle_rasterizer::~triangle_rasterizer()
 {}
 
 /*
- * Returns a vector which contains alle the pixels inside the triangle
+ * Returns a vector which contains all the pixels inside the triangle
  */
 std::vector<glm::vec3> triangle_rasterizer::all_pixels()
 {
@@ -25,9 +25,10 @@ std::vector<glm::vec3> triangle_rasterizer::all_pixels()
     while (this->leftedge.more_fragments()) {
 	for (int x = this->leftedge.x(); x < this->rightedge.x(); ++x) {
 	    points.push_back(glm::vec3(float(x), float(this->leftedge.y()), 0.0f));
+		//We fill in all the pixels between leftedge and rightedge
 	}
-	this->leftedge.next_fragment();
-	this->rightedge.next_fragment();
+	this->leftedge.next_fragment(); //Move leftedge up
+	this->rightedge.next_fragment(); //Move rightedge up
     }
     return points;
 }

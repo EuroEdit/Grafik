@@ -127,9 +127,9 @@ private:
     /**
      * Variables used to determine the next pixels coordinates
      */
-    int Numerator;
-    int Denominator;
-    int Accumulator;
+    int Num;
+    int Den;
+    int Acc;
 };
 
 #endif
