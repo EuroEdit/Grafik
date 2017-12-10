@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Files/OFile/testofile.cpp
+iostream
+-
+iomanip
+-
+stdexcept
+-
+DIKUgrafik/ofile.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Files/OFile/DIKUgrafik/ofile.h
+DIKUgrafik/ofileopr.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Files/OFile/DIKUgrafik/ofileopr.h
+

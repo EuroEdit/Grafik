@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/TraceInfo/testtraceinfo.cpp
+DIKUgrafik/traceinfo.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/TraceInfo/DIKUgrafik/traceinfo.h
+

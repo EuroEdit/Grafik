@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-1/assignment-1.cpp
+iostream
+-
+iomanip
+-
+stdexcept
+-
+fstream
+-
+sstream
+-
+cmath
+-
+vector
+-
+string
+-
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+DIKUgrafik/ifile.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-1/DIKUgrafik/ifile.h
+DIKUgrafik/glmutils.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-1/DIKUgrafik/glmutils.h
+DIKUgrafik/linerasterizer.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-1/DIKUgrafik/linerasterizer.h
+

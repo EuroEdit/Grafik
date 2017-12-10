@@ -1,0 +1,23 @@
+#include "DIKUgrafik/ofile.h"
+#include "DIKUgrafik/ofileopr.h"
+
+
+/*
+ * Utility template operator which makes it easy to write to a file.
+ * \param file - the file to be written to.
+ * \param value - the value to be written.
+ * \return a reference to the OutputFile written to.
+ */
+template <typename Type>
+OutputFile& operator<<(OutputFile& file, Type& value)
+{
+    Trace("InputFile", "operator>>(InputFile&, Type&)");
+
+    static_cast<std::ofstream&>(file) << value;
+
+#if 0
+    file.CheckStatus();
+#endif
+
+    return file;
+}

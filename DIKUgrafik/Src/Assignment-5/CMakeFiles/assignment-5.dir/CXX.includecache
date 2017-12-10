@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/assignment-5.cpp
+iostream
+-
+iomanip
+-
+stdexcept
+-
+fstream
+-
+sstream
+-
+cmath
+-
+vector
+-
+string
+-
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+DIKUgrafik/errorcheck.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/DIKUgrafik/errorcheck.h
+DIKUgrafik/ifile.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/DIKUgrafik/ifile.h
+DIKUgrafik/glmutils.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/DIKUgrafik/glmutils.h
+DIKUgrafik/windowutils.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/DIKUgrafik/windowutils.h
+DIKUgrafik/shaderutils.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/DIKUgrafik/shaderutils.h
+DIKUgrafik/camera.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/DIKUgrafik/camera.h
+DIKUgrafik/bezierpatch.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-5/DIKUgrafik/bezierpatch.h
+

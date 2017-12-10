@@ -1,0 +1,1 @@
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-2/triangle.h

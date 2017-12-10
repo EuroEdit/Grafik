@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Camera/testcamera.cpp
+DIKUgrafik/camera.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Camera/DIKUgrafik/camera.h
+

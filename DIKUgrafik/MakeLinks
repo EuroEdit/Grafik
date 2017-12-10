@@ -1,0 +1,28 @@
+#! /bin/bash
+
+prefix=`pwd`
+#echo PREFIX: $prefix
+
+rm -f $prefix/Include/DIKUgrafik/*.h
+#ls -l $prefix/Include/DIKUgrafik/*.h
+
+headerfiles=`find $prefix/Src -name \*.h`
+#echo HEADERFILES: $headerfiles
+
+rm -rf $prefix/Include/DIKUgrafik/*.h
+for header in $headerfiles;
+do
+    ln -s -f $header $prefix/Include/DIKUgrafik
+done
+
+templatefiles=`find $prefix/Src -name \*.impl`
+#echo TEPLATEFILES $templatefiles
+
+rm -rf $prefix/Include/DIKUgrafik/*.impl
+for template in $templatefiles;
+do
+    ln -s -f $template $prefix/Include/DIKUgrafik
+done
+
+rm -rf $prefix/Include/DIKUgrafik/projectdescription.h
+

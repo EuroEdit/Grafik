@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-2/assignment-2.cpp
+iostream
+-
+iomanip
+-
+stdexcept
+-
+fstream
+-
+sstream
+-
+cmath
+-
+vector
+-
+string
+-
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+DIKUgrafik/errorcheck.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-2/DIKUgrafik/errorcheck.h
+DIKUgrafik/ifile.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-2/DIKUgrafik/ifile.h
+DIKUgrafik/glmutils.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-2/DIKUgrafik/glmutils.h
+DIKUgrafik/triangle.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/Assignment-2/DIKUgrafik/triangle.h
+

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/glmutils/testglmutils.cpp
+iostream
+-
+iomanip
+-
+stdexcept
+-
+cmath
+-
+string
+-
+cctype
+-
+DIKUgrafik/glmutils.h
+/Users/jakob/Documents/Grafik/DIKUgrafik/Src/glmutils/DIKUgrafik/glmutils.h
+

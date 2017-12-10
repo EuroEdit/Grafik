@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -std=c++11 -I/Users/jakob/Documents/Grafik/DIKUgrafik/Include -I/usr/local/include -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/testglmutils2d.dir/testglmutils2d.cpp.o  -o testglmutils2d ../../libDIKUgrafik.a 
