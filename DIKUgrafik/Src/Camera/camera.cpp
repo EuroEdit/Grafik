@@ -466,39 +466,42 @@ void Camera::ComputeViewOrientation(glm::vec3& vrp, glm::vec3& vpn, glm::vec3& v
 {
     Trace("Camera", "ComputeViewOrientation(vec3&, vec3&, vec3&)");
 
+
+
+    /////////////////////////////// Step 1 ///////////////////////////////////////
     // Translate to the origin
     glm::mat4x4 T_vrp = glm::translate(-vrp);
 
-    TraceMessage("vrp =" << vrp << std::endl;);
-    TraceMessage("TranslationMatrix = " << std::endl << T_vrp << std::endl;); 
+
+    ////////////////////////////// Step 2 ////////////////////////////////////////
 
     // Construct eye coordinate frame (u, v, n)
+
+    // VPN / || VPN ||
     glm::vec3 n(glm::normalize(vpn));
+    // VUP x VPN / || VUP x VPN ||
     glm::vec3 u(glm::normalize(glm::cross(vup, vpn)));
+    // Rz x Rx / || Rz x Rx || -> n x u / || n x u ||
     glm::vec3 v(glm::normalize(glm::cross(n, u)));
 
-    TraceMessage("u = " << u << std::endl;);
-    TraceMessage("v = " << v << std::endl;);
-    TraceMessage("n = " << n << std::endl;);
 
     // Rotate (u, v, n) into (X, Y, Z) axes
+    // We use a  unit vector to fill in our new n, u and v
     glm::mat4x4 Rotation(1.0f);
-    //TraceMessage("RotationMatrix = " << std::endl << Rotation << std::endl;);
     Rotation = glm::row(Rotation, 0, glm::vec4(u, 0.0f));
     Rotation = glm::row(Rotation, 1, glm::vec4(v, 0.0f));
     Rotation = glm::row(Rotation, 2, glm::vec4(n, 0.0f));
 
-    TraceMessage("RotationMatrix = " << std::endl << Rotation << std::endl;);
 
     // The ViewOrientation matrix and its inverse
+    // Rotation * T_vrp -> R * T(-VRP) from expression we are mimicking on slide 183
     this->vieworientationmatrix    = Rotation * T_vrp;
     this->invvieworientationmatrix = glm::translate(vrp) * glm::transpose(Rotation);    
 
-    TraceMessage("ViewOrientationMatrix = " << std::endl << this->vieworientationmatrix << std::endl;);
 }
 
 /*
- * Compute the Projection Orientation Matrix.
+ * Compute the View Projection Matrix.
  * \param prp - the Projection Reference Point.
  * \param lower_left_window - the lower left corner of the window.
  * \param upper_right_window - the upper right corner of the window.
@@ -510,22 +513,26 @@ void Camera::ComputeViewProjection(glm::vec3& prp,
 				   glm::vec2& lower_left_window, glm::vec2& upper_right_window,
 				   float front_clipping_plane, float back_clipping_plane)
 {
-    Trace("Camera", "ComputeViewProjection(vec3&, vec2&, vec2&, float, float)");
+    // Trace("Camera", "ComputeViewProjection(vec3&, vec2&, vec2&, float, float)");
+
+
+
+    //////////////////////// Step 3 ////////////////////////////
 
     // Translate top of the view pyramid to the origin
+    // Is the T(−PRP) part of expression on 183
     glm::mat4x4 T_prp = glm::translate(-prp);
 
-    TraceMessage("prp =" << prp << std::endl;);
-    TraceMessage("TranslationMatrix = " << std::endl << T_prp << std::endl;); 
+
+
+
+
+////////////////////////// Step 4 //////////////////////////////
 
     // Compute the Center of Window and the Direction of Projection
     glm::vec3 CW((lower_left_window + upper_right_window) / 2.0f, 0.0f);
     glm::vec3 DOP(prp - CW);
 
-    TraceMessage("lower_left_window  = " << lower_left_window << std::endl;);
-    TraceMessage("upper_right_window = " << upper_right_window << std::endl;);
-    TraceMessage("CW  = " << CW  << std::endl;);
-    TraceMessage("DOP = " << DOP << std::endl;);
 
     // Compute the shear factors
     float shx = 0.0f;
@@ -536,41 +543,46 @@ void Camera::ComputeViewProjection(glm::vec3& prp,
     }
 
     // Generate the shear matrix SHxy
+    // Is Sh_per from expression on 183
     glm::mat4x4 SHxy(glm::shearXY(shx, shy));
 
-    TraceMessage("(shx, shy)  = (" << shx << ", " << shy << ")" << std::endl;); 
-    TraceMessage("ShearMatrix = "  << std::endl << SHxy << std::endl;);
+
+
+
+
+//////////////////////////// Step 5 ////////////////////////////////
 
     // Compute the scale factors and the scaling matrix
-    float sx =  2.0f * prp.z / (upper_right_window.x - lower_left_window.x);
-    float sy =  2.0f * prp.z / (upper_right_window.y - lower_left_window.y);
+    float s_x =  -2.0f * prp.z / ((upper_right_window.x - lower_left_window.x) * (back_clipping_plane - prp.z));
+    float s_y =  -2.0f * prp.z / ((upper_right_window.y - lower_left_window.y) * (back_clipping_plane - prp.z));
     float s  = -1.0f / (back_clipping_plane - prp.z);
-    glm::mat4x4 S(glm::scale(glm::vec3(sx * s, sy * s, s)));
 
-    TraceMessage("(sx, sy, s) = (" << sx << ", " << sy << ", " << s << ")" << std::endl;);
-    TraceMessage("ScaleMatrix = " << std::endl << S << std::endl;);
+    // Is the scale matrix S_per from 183 expression
+    glm::mat4x4 S(glm::scale(glm::vec3(s_x, s_y, s)));
 
-    // Compute the Mperpar matrix
+
+
+/////////////////////////////// Step "6" ////////////////////////////
+    
+
+    //Calculate Zmax using expression on 180 for use in finding Mperpar
     float Zmax = -(front_clipping_plane - prp.z) / (back_clipping_plane - prp.z);
     glm::mat4x4 Mperpar(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
 			glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
 			glm::vec4(0.0f, 0.0f, 1.0f / (1.0f + Zmax), -1.0f),
 			glm::vec4(0.0f, 0.0f, -Zmax / (1.0f + Zmax), 0.0f));
 
-    TraceMessage("Zmax    = " << Zmax << std::endl;);
-    TraceMessage("Mperpar = " << std::endl << Mperpar << std::endl;);
 
-    // Compute the ViewProjection matrix
+    // Compute the ViewProjection matrix that is the Mperpar matrix slide 187
     this->viewprojectionmatrix    = Mperpar * S * SHxy * T_prp;
 
-    glm::mat4x4 invS = glm::scale(glm::vec3(1.0f / (sx * s), 1.0f / (sy * s), 1.0f / s));
+    glm::mat4x4 invS = glm::scale(glm::vec3(1.0f / s_x, 1.0f / s_y, 1.0f / s));
     glm::mat4x4 invMperpar(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
 			   glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
 			   glm::vec4(0.0f, 0.0f, 0.0f, -(1 + Zmax) / Zmax),
 			   glm::vec4(0.0f, 0.0f, -1.0f, -1.0f / Zmax));
     this->invviewprojectionmatrix = glm::translate(prp) * glm::shearXY(-shx, -shy) * invS * invMperpar;
 
-    TraceMessage("ViewProjectionMatrix = " << std::endl << this->viewprojectionmatrix << std::endl;);
 }
 
 /*
@@ -590,37 +602,5 @@ void Camera::ComputeWindowViewport(float x_viewport, float y_viewport, float vie
     this->windowviewportmatrix    = glm::mat4x4(1.0f);
     this->invwindowviewportmatrix = glm::mat4x4(1.0f);
 
-    // return;
-
-    // Not needed because OpenGL does the window viewport mapping
-
-    // Translate (-1, -1, 0) to the origin (0, 0, 0)
-    glm::mat4x4 Translate = glm::translate(glm::vec3(1.0f, 1.0f, 0.0f));
-
-    TraceMessage("TranslationMatrix = " << std::endl << Translate << std::endl;);
-
-    // Scale the canonical view volume to the screen viewport size
-    glm::mat4x4 Scale = glm::scale(glm::vec3(viewport_width / 2.0f, viewport_height / 2.0f, 1.0f));
-
-    TraceMessage("ScaleMatrix = " << std::endl << Scale << std::endl;);
-
-    // Translate final viewport to its right position
-    glm::mat4x4 ScreenTranslate = glm::translate(glm::vec3(x_viewport, y_viewport, 0.0f));
-
-    // Compute the resulting WindowViewport matrix
-    this->windowviewportmatrix = ScreenTranslate * Scale * Translate;
-
-    // Compute the inverse of Translate
-    glm::mat4x4 invTranslate = glm::translate(glm::vec3(-1.0f, -1.0f, 0.0f));
-
-    // Compute the inverse of Scale
-    glm::mat4x4 invScale = glm::scale(glm::vec3(2.0f / viewport_width, 2.0f / viewport_height, 1.0f));
-
-    // Compute the inverse of ScreenTranslate
-    glm::mat4x4 invScreenTranslate = glm::translate(glm::vec3(-x_viewport, -y_viewport, 0.0f));
-
-    // Compute the inverse of the WindowViewport matrix
-    this->invwindowviewportmatrix = invTranslate * invScale * invScreenTranslate;
-
-    TraceMessage("WindowViewportMatrix = " << std::endl << this->windowviewportmatrix << std::endl;);
+    return;
 }
