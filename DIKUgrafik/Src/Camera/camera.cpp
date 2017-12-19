@@ -89,7 +89,7 @@ Camera::Camera(glm::vec3 const& vrp, glm::vec3 const& vpn, glm::vec3 const& vup,
  
 /*
  * Copy constructor, creates a copy of its parameter.
- * \param camera - the camera object which shuld be copied.
+ * \param camera - the camera object which should be copied.
  */
 Camera::Camera(Camera const& camera)
 {
