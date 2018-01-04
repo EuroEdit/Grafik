@@ -10,6 +10,6 @@ out vec3 WorldNormal;
 
 void main() {
     WorldVertex = Vertex;
-    WorldNormal = Normal;
+    WorldNormal = Normal;  
     gl_Position = CTM * vec4(Vertex, 1.0f);
 }
