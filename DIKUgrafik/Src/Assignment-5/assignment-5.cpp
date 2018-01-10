@@ -49,24 +49,23 @@ void Sample(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 	float t1 = 0.0f;
     float t2 = 0.0f;
     float t3 = 0.0f;
-    float delta_t = 1.0f / float(N);
+    float delta_t = 1.0f / float(N); //calculate step-size
     glm::vec4 T(0.0f);
     
-    Vertices.push_back(G[1]);
+    Vertices.push_back(G[1]); //Add start-point
     glm::vec3 vertex;
     
     for (int i = 2; i < N; ++i) {
-		t1 += delta_t;
-		t2 = t1 * t1;
-		t3 = t2 * t1;
-		T = glm::vec4(t3, t2, t1, 1.0f);
-		vertex = G * BasisMatrix * T;
-		Vertices.push_back(vertex);
-		Vertices.push_back(vertex);
-		std::cout << "vertex: " << vertex << std::endl;
+		t1 += delta_t;	//calculate new t value
+		t2 = t1 * t1; 	// t^2
+		t3 = t2 * t1;	// t^3
+		T = glm::vec4(t3, t2, t1, 1.0f); // T vector
+		vertex = G * BasisMatrix * T; // Calculate point on curve
+		Vertices.push_back(vertex); //Add new point to vertices
+		Vertices.push_back(vertex); //Add again because same point is both start and endpoint for different lines
     }
 
-    Vertices.push_back(G[4]);
+    Vertices.push_back(G[4]); //Add end-point
 }
 
 /**
@@ -78,12 +77,12 @@ void Sample(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 void SubDivide(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 {
     if (N == 0) {
-		Vertices.push_back(G[1]);
+		Vertices.push_back(G[1]); //No more recursion so simply add beginning and end point of current segment
 		Vertices.push_back(G[4]);
     }
     else {
-		SubDivide(G * DLB, N-1, Vertices);
-		SubDivide(G * DRB, N-1, Vertices);
+		SubDivide(G * DLB, N-1, Vertices); // Subdivide to Left segment, decrement N
+		SubDivide(G * DRB, N-1, Vertices); // Subdivide to Right segment, decrement N
     }
 }
 
