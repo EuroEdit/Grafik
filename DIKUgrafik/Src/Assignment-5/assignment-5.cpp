@@ -19,13 +19,13 @@
 #include "DIKUgrafik/bezierpatch.h"
 
 // Sampling Type - only define one of them at a time - but do it for all of them
-#define SAMPLE
+// #define SAMPLE
 // #define FORWARDDIFFERENCES
-// #define SUBDIVISION
+#define SUBDIVISION
 // #define FLATNESS
 
 // Parameters for the different sampling methods
-int   const Nsamples         = 2;
+int   const Nsamples         = 20;
 int   const Nsubdivisions    = 5;
 float const Epsilon          = 0.1f;
 int   const MaxFlatnessTests = 5;
@@ -46,17 +46,27 @@ glm::mat4x4 DRB;
  */
 void Sample(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 {   
-    // Sample the curve by just stepping the parameter
-}
-/**
- * Samples a Bezier curve using Forward Differences
- * \param G - the geometry matrix for the Bezier curve.
- * \param N - the number of times the curve should be subdivided.
- * \param Vertices - a vector in which the sample points are returned.
- */
-void SampleFWD(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
-{
-    // Sample the curve using Forward Differences
+	float t1 = 0.0f;
+    float t2 = 0.0f;
+    float t3 = 0.0f;
+    float delta_t = 1.0f / float(N);
+    glm::vec4 T(0.0f);
+    
+    Vertices.push_back(G[1]);
+    glm::vec3 vertex;
+    
+    for (int i = 2; i < N; ++i) {
+		t1 += delta_t;
+		t2 = t1 * t1;
+		t3 = t2 * t1;
+		T = glm::vec4(t3, t2, t1, 1.0f);
+		vertex = G * BasisMatrix * T;
+		Vertices.push_back(vertex);
+		Vertices.push_back(vertex);
+		std::cout << "vertex: " << vertex << std::endl;
+    }
+
+    Vertices.push_back(G[4]);
 }
 
 /**
@@ -67,31 +77,14 @@ void SampleFWD(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
  */
 void SubDivide(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 {
-    // Sample the curve using subdivision
-}
-
-/**
- * Determines if a Bezier curve is flat enough to be approximated by a straight line.
- * \param G - the geometry matrix for the Bezier curve.
- * \param epsilon - the maximum height of the convex hull allowed.
- */
-bool Flatness(BezierRow const& G, float epsilon)
-{
-    // Determine if the curve is flat enough.
-    
-    return true;
-}
-
-/**
- * Subdivides a Bezier curve N times and returns the sample points in a vector.
- * \param G - the geometry matrix for the Bezier curve.
- * \param epsilon - if the convex hull has a heitht less than epsilon stop subdividing.
- * \param Vertices - a vector in which the sample points are returned.
- * \param N - the meximum number of subdivisions of a curve segment.
- */
-void SubDivide(BezierRow const& G, float epsilon, std::vector<glm::vec3>& Vertices, int N)
-{
-    // Subdivide the curve
+    if (N == 0) {
+		Vertices.push_back(G[1]);
+		Vertices.push_back(G[4]);
+    }
+    else {
+		SubDivide(G * DLB, N-1, Vertices);
+		SubDivide(G * DRB, N-1, Vertices);
+    }
 }
 
 /**
