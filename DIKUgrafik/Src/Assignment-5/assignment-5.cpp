@@ -19,13 +19,13 @@
 #include "DIKUgrafik/bezierpatch.h"
 
 // Sampling Type - only define one of them at a time - but do it for all of them
-// #define SAMPLE
+#define SAMPLE
 // #define FORWARDDIFFERENCES
-#define SUBDIVISION
+// #define SUBDIVISION
 // #define FLATNESS
 
 // Parameters for the different sampling methods
-int   const Nsamples         = 20;
+int   const Nsamples         = 100;
 int   const Nsubdivisions    = 5;
 float const Epsilon          = 0.1f;
 int   const MaxFlatnessTests = 5;
